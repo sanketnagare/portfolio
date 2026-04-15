@@ -21,21 +21,22 @@ export default function Navbar() {
   const isHomePage = pathname === "/";
 
   useEffect(() => {
-    if (!isHomePage) return;
-
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = ["hero", "about", "experience", "education", "skills", "projects", "contact"];
-      for (const section of sections.reverse()) {
-        const el = document.getElementById(section);
-        if (el && window.scrollY >= el.offsetTop - 200) {
-          setActiveSection(section);
-          break;
+      if (isHomePage) {
+        const sections = ["hero", "about", "experience", "education", "skills", "projects", "contact"];
+        for (const section of sections.reverse()) {
+          const el = document.getElementById(section);
+          if (el && window.scrollY >= el.offsetTop - 200) {
+            setActiveSection(section);
+            break;
+          }
         }
       }
     };
 
+    handleScroll(); // Initialize on mount
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
@@ -50,8 +51,8 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        scrolled || mobileMenuOpen
-          ? "bg-background/95 border-b border-border/50"
+        scrolled || mobileMenuOpen || !isHomePage
+          ? "bg-background/95 backdrop-blur-sm border-b border-border/50"
           : "bg-transparent"
       }`}
     >
