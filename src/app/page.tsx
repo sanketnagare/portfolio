@@ -80,6 +80,7 @@ export default function Home() {
                   description={desc}
                   projects={exp.projects}
                   logo={logoIcons[exp.logoType] || logoIcons.company}
+                  logoUrl={exp.logoUrl}
                 />
               );
             })}
@@ -123,9 +124,13 @@ export default function Home() {
                 key={edu.title}
                 index={i}
                 title={edu.title}
-                subtitle={`${edu.institution}${edu.cgpa ? ` (CGPA: ${edu.cgpa})` : ""}`}
+                subtitle={`${edu.institution}${
+                  edu.cgpa ? ` (CGPA: ${edu.cgpa})` : 
+                  edu.percentage ? ` (Percentage: ${edu.percentage})` : ""
+                }`}
                 date={edu.date}
                 logo={logoIcons.education}
+                logoUrl={edu.logoUrl}
               />
             ))}
           </div>

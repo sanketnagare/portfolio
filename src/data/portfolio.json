@@ -10,56 +10,140 @@
     "resumeUrl": "/resume.pdf",
     "footer": "Sanket Nagare, Pune, India"
   },
-
   "socials": [
-    { "label": "GitHub", "href": "https://github.com/sanketnagare", "type": "github" },
-    { "label": "LinkedIn", "href": "https://linkedin.com/in/sanket-nagare", "type": "linkedin" },
-    { "label": "Email", "href": "mailto:sanket.nagare.work@gmail.com", "type": "email" }
+    {
+      "label": "GitHub",
+      "href": "https://github.com/sanketnagare",
+      "type": "github"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://linkedin.com/in/sanket-nagare",
+      "type": "linkedin"
+    },
+    {
+      "label": "Email",
+      "href": "mailto:sanket.nagare.work@gmail.com",
+      "type": "email"
+    }
   ],
-
   "skills": [
-    { "category": "Languages & Frameworks", "items": [
-      { "name": "Python" },
-      { "name": "Node.js" },
-      { "name": "FastAPI" },
-      { "name": "C++" },
-      { "name": "React.js" }
-    ]},
-    { "category": "GenAI & ML", "items": [
-      { "name": "Google ADK" },
-      { "name": "LangChain" },
-      { "name": "LangGraph" },
-      { "name": "LLM Integration" },
-      { "name": "Prompt Engineering" },
-      { "name": "Multi-Agent Systems" },
-      { "name": "RAG" },
-      { "name": "Vector Databases" },
-      { "name": "NLP" }
-    ]},
-    { "category": "Cloud & DevOps", "items": [
-      { "name": "AWS Lambda" },
-      { "name": "AWS Amplify" },
-      { "name": "Amazon Cognito" },
-      { "name": "EventBridge" },
-      { "name": "CloudWatch" },
-      { "name": "Docker" },
-      { "name": "Git" }
-    ]},
-    { "category": "Databases", "items": [
-      { "name": "PostgreSQL" },
-      { "name": "MSSQL Server" },
-      { "name": "Redis" }
-    ]},
-    { "category": "Other", "items": [
-      { "name": "Twilio" },
-      { "name": "REST APIs" },
-      { "name": "Event-Driven Architecture" },
-      { "name": "System Design" },
-      { "name": "DSA" },
-      { "name": "Agile/Scrum" }
-    ]}
+    {
+      "category": "Languages & Frameworks",
+      "items": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Node.js"
+        },
+        {
+          "name": "FastAPI"
+        },
+        {
+          "name": "C++"
+        },
+        {
+          "name": "React.js"
+        }
+      ]
+    },
+    {
+      "category": "GenAI & ML",
+      "items": [
+        {
+          "name": "Google ADK"
+        },
+        {
+          "name": "LangChain"
+        },
+        {
+          "name": "LangGraph"
+        },
+        {
+          "name": "LLM Integration"
+        },
+        {
+          "name": "Prompt Engineering"
+        },
+        {
+          "name": "Multi-Agent Systems"
+        },
+        {
+          "name": "RAG"
+        },
+        {
+          "name": "Vector Databases"
+        },
+        {
+          "name": "NLP"
+        }
+      ]
+    },
+    {
+      "category": "Cloud & DevOps",
+      "items": [
+        {
+          "name": "AWS Lambda"
+        },
+        {
+          "name": "AWS Amplify"
+        },
+        {
+          "name": "Amazon Cognito"
+        },
+        {
+          "name": "EventBridge"
+        },
+        {
+          "name": "CloudWatch"
+        },
+        {
+          "name": "Docker"
+        },
+        {
+          "name": "Git"
+        }
+      ]
+    },
+    {
+      "category": "Databases",
+      "items": [
+        {
+          "name": "PostgreSQL"
+        },
+        {
+          "name": "MSSQL Server"
+        },
+        {
+          "name": "Redis"
+        }
+      ]
+    },
+    {
+      "category": "Other",
+      "items": [
+        {
+          "name": "Twilio"
+        },
+        {
+          "name": "REST APIs"
+        },
+        {
+          "name": "Event-Driven Architecture"
+        },
+        {
+          "name": "System Design"
+        },
+        {
+          "name": "DSA"
+        },
+        {
+          "name": "Agile/Scrum"
+        }
+      ]
+    }
   ],
-
   "experiences": [
     {
       "title": "Associate Software Engineer",
@@ -67,6 +151,7 @@
       "location": "Pune, India",
       "date": "Sep 2023 - Present",
       "logoType": "company",
+      "logoUrl": "/kanaka.webp",
       "summary": "Building AI-powered HR analytics and on-demand marketplace backends.",
       "projects": [
         {
@@ -96,6 +181,7 @@
       "location": "Remote",
       "date": "Sep 2021 - April 2023",
       "logoType": "content",
+      "logoUrl": "/gfg.webp",
       "hasCertificate": true,
       "description": "Wrote 110+ technical articles on data structures, algorithms, and programming topics. Total readership crossed 1M+ views."
     },
@@ -105,26 +191,37 @@
       "location": "Nashik, India",
       "date": "June 2022 - July 2022",
       "logoType": "internship",
+      "logoUrl": "/hal.webp",
       "hasCertificate": true,
       "description": "Worked on endpoint security and antivirus deployment using Kaspersky for government network systems."
     }
   ],
-
   "education": [
     {
       "title": "B.E. in Computer Engineering",
       "institution": "MET Institute of Engineering, Nashik",
       "date": "2020 - 2023",
+      "logoUrl": "/MET.webp",
       "cgpa": "9.33 / 10"
+    },
+    {
+      "title": "Diploma in Information Technology",
+      "institution": "Government Polytechnic, Nashik",
+      "date": "2017 - 2020",
+      "logoUrl": "/GPN.webp",
+      "percentage": "90%"
     }
   ],
-
   "projects": [
     {
       "title": "RoadmapFree",
       "subtitle": "AI Learning Roadmap Generator",
       "description": "Takes YouTube videos and course docs, extracts the structure, and generates a learning roadmap. Built it because paid course roadmaps shouldn't be locked behind a paywall.",
-      "tags": ["LLM APIs", "Data Extraction", "AI Platform"],
+      "tags": [
+        "LLM APIs",
+        "Data Extraction",
+        "AI Platform"
+      ],
       "link": "https://roadmapfree.com",
       "gradient": "bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700"
     },
@@ -132,7 +229,12 @@
       "title": "AIVisibilityBot",
       "subtitle": "SEO/AEO/GEO Audit Tool",
       "description": "Runs 51+ automated checks to see how AI engines like ChatGPT, Perplexity, and Gemini perceive and cite a website. Full-stack SaaS with streaming results.",
-      "tags": ["Full-Stack SaaS", "LLM Analysis", "SEO/AEO/GEO", "Automation"],
+      "tags": [
+        "Full-Stack SaaS",
+        "LLM Analysis",
+        "SEO/AEO/GEO",
+        "Automation"
+      ],
       "link": "https://aivisibilitybot.com",
       "gradient": "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500"
     },
@@ -140,20 +242,31 @@
       "title": "Rushabh Enterprises",
       "subtitle": "Freelance Business Website",
       "description": "Freelance gig building a website for a UV lights manufacturer. React frontend, handled everything from planning to deployment.",
-      "tags": ["ReactJS", "Web Development", "Freelance"],
+      "tags": [
+        "ReactJS",
+        "Web Development",
+        "Freelance"
+      ],
       "link": "https://therushabhenterprises.com",
       "gradient": "bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600"
     }
   ],
-
   "achievements": [
     "Won (3rd edition) and placed 2nd (4th edition) at Kanaka Software's internal hackathons.",
     "Ranked 7th out of 4,000+ articles in a GeeksForGeeks content writing competition."
   ],
-
   "certifications": [
-    { "name": "Mastering Generative AI and ChatGPT", "link": "#" },
-    { "name": "Advanced PostgreSQL", "link": "#" },
-    { "name": "MS SQL Server", "link": "#" }
+    {
+      "name": "Mastering Generative AI and ChatGPT",
+      "link": "#"
+    },
+    {
+      "name": "Advanced PostgreSQL",
+      "link": "#"
+    },
+    {
+      "name": "MS SQL Server",
+      "link": "#"
+    }
   ]
 }

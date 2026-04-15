@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import Image from "next/image";
 
 interface Project {
   name: string;
@@ -15,6 +15,7 @@ interface ExperienceCardProps {
   link?: string;
   index: number;
   logo?: React.ReactNode;
+  logoUrl?: string;
   projects?: Project[];
 }
 
@@ -25,14 +26,24 @@ export default function ExperienceCard({
   description,
   link,
   logo,
+  logoUrl,
   projects,
 }: ExperienceCardProps) {
   const Content = (
     <div className="group py-4 border-b border-border/60 last:border-b-0">
-      <div className="flex items-start gap-3">
-        {logo && (
-          <div className="shrink-0 w-8 h-8 mt-0.5 rounded bg-surface-light border border-border flex items-center justify-center text-muted">
-            {logo}
+      <div className="flex items-start gap-4">
+        {(logo || logoUrl) && (
+          <div className="shrink-0 w-14 h-14 rounded bg-surface-light border border-border flex items-center justify-center text-muted relative overflow-hidden">
+            {logoUrl ? (
+              <Image 
+                src={logoUrl} 
+                alt={title} 
+                fill 
+                className="object-contain p-1"
+              />
+            ) : (
+              logo
+            )}
           </div>
         )}
         <div className="flex-1 min-w-0">
