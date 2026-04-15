@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import React from "react";
 
 interface ExperienceCardProps {
   title: string;
@@ -9,6 +10,7 @@ interface ExperienceCardProps {
   description?: string;
   link?: string;
   index: number;
+  logo?: React.ReactNode;
 }
 
 export default function ExperienceCard({
@@ -18,6 +20,7 @@ export default function ExperienceCard({
   description,
   link,
   index,
+  logo,
 }: ExperienceCardProps) {
   const Content = (
     <motion.div
@@ -33,8 +36,15 @@ export default function ExperienceCard({
         backgroundColor: "rgba(26, 26, 37, 0.8)",
         x: 4,
       }}
-      className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-xl transition-colors cursor-pointer"
+      className="group flex items-start gap-4 p-4 -mx-4 rounded-xl transition-colors cursor-pointer"
     >
+      {/* Company logo */}
+      {logo && (
+        <div className="shrink-0 w-10 h-10 mt-0.5 rounded-lg bg-surface-light border border-border flex items-center justify-center text-accent overflow-hidden">
+          {logo}
+        </div>
+      )}
+
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <h3 className="font-heading font-semibold text-foreground group-hover:text-accent transition-colors">
@@ -61,6 +71,7 @@ export default function ExperienceCard({
           <p className="text-sm text-muted/70 mt-2 leading-relaxed">{description}</p>
         )}
       </div>
+
       <span className="text-sm text-muted whitespace-nowrap shrink-0 mt-0.5">
         {date}
       </span>

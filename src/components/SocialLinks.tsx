@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 const socialLinks = [
   {
@@ -32,30 +33,77 @@ const socialLinks = [
   },
 ];
 
+function MagneticLink({
+  href,
+  label,
+  icon,
+  delay,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  delay: number;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    // Max pull of 8px
+    x.set(dx * 0.35);
+    y.set(dy * 0.35);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="p-2.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-light border border-transparent hover:border-border transition-all"
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 + delay }}
+    >
+      {icon}
+    </motion.a>
+  );
+}
+
 export default function SocialLinks() {
   return (
     <motion.div
       className="flex items-center gap-3"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.8 }}
+      transition={{ duration: 0.3, delay: 0.4 }}
     >
       {socialLinks.map((link, i) => (
-        <motion.a
+        <MagneticLink
           key={link.label}
           href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.label}
-          className="p-2.5 rounded-lg text-muted hover:text-foreground hover:bg-surface-light border border-transparent hover:border-border transition-all"
-          whileHover={{ scale: 1.1, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 + i * 0.1 }}
-        >
-          {link.icon}
-        </motion.a>
+          label={link.label}
+          icon={link.icon}
+          delay={i * 0.1}
+        />
       ))}
     </motion.div>
   );

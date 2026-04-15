@@ -81,6 +81,13 @@
   50% { filter: drop-shadow(0 0 20px rgba(212, 168, 83, 0.6)); }
 }
 
+@keyframes noiseShift {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-5%, -5%); }
+  66% { transform: translate(5%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
 html {
   scroll-behavior: smooth;
 }

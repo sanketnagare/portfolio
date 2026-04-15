@@ -28,7 +28,7 @@ export default function ProfileAvatar() {
         className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-accent/40 bg-surface"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
       >
         {/* Abstract avatar illustration */}
         <svg viewBox="0 0 128 128" className="w-full h-full" fill="none">
