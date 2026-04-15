@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Sanket - Portfolio",
-  description: "Creative developer crafting digital experiences with code and design.",
+  title: "Sanket Nagare, Software Engineer",
+  description: "Backend and AI engineer based in Pune. Currently building multi-agent systems and backend platforms at Kanaka Software.",
   keywords: ["developer", "portfolio", "creative", "web development", "design"],
 };
 

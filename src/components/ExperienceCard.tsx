@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
 import React from "react";
+
+interface Project {
+  name: string;
+  bullets: string[];
+}
 
 interface ExperienceCardProps {
   title: string;
@@ -11,6 +15,7 @@ interface ExperienceCardProps {
   link?: string;
   index: number;
   logo?: React.ReactNode;
+  projects?: Project[];
 }
 
 export default function ExperienceCard({
@@ -19,63 +24,55 @@ export default function ExperienceCard({
   date,
   description,
   link,
-  index,
   logo,
+  projects,
 }: ExperienceCardProps) {
   const Content = (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.1,
-        ease: [0.25, 0.4, 0.25, 1],
-      }}
-      whileHover={{
-        backgroundColor: "var(--color-surface-light)",
-        x: 4,
-      }}
-      className="group flex items-start gap-4 p-4 -mx-4 rounded-xl transition-colors cursor-pointer"
-    >
-      {/* Company logo */}
-      {logo && (
-        <div className="shrink-0 w-10 h-10 mt-0.5 rounded-lg bg-surface-light border border-border flex items-center justify-center text-accent overflow-hidden">
-          {logo}
-        </div>
-      )}
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <h3 className="font-heading font-semibold text-foreground group-hover:text-accent transition-colors">
-            {title}
-          </h3>
-          {link && (
-            <svg
-              className="w-4 h-4 text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M7 17L17 7M17 7H7M17 7v10"
-              />
-            </svg>
+    <div className="group py-4 border-b border-border/60 last:border-b-0">
+      <div className="flex items-start gap-3">
+        {logo && (
+          <div className="shrink-0 w-8 h-8 mt-0.5 rounded bg-surface-light border border-border flex items-center justify-center text-muted">
+            {logo}
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-4">
+            <div>
+              <h3 className="font-heading font-semibold text-foreground text-sm">
+                {title}
+              </h3>
+              <p className="text-xs text-foreground/50 mt-0.5">{subtitle}</p>
+            </div>
+            <span className="text-xs text-foreground/40 whitespace-nowrap shrink-0">
+              {date}
+            </span>
+          </div>
+          {description && (
+            <p className="text-xs text-foreground/50 mt-2 leading-relaxed">
+              {description}
+            </p>
+          )}
+          {projects && projects.length > 0 && (
+            <div className="mt-4 space-y-4">
+              {projects.map((project) => (
+                <div key={project.name}>
+                  <h4 className="text-xs font-semibold text-foreground/80 mb-1.5">
+                    {project.name}
+                  </h4>
+                  <ul className="space-y-1">
+                    {project.bullets.map((bullet, j) => (
+                      <li key={j} className="text-xs text-foreground/60 leading-relaxed pl-3 relative before:content-[''] before:absolute before:left-0 before:top-[7px] before:w-1 before:h-1 before:rounded-full before:bg-accent/50">
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        <p className="text-sm text-muted mt-0.5">{subtitle}</p>
-        {description && (
-          <p className="text-sm text-muted/70 mt-2 leading-relaxed">{description}</p>
-        )}
       </div>
-
-      <span className="text-sm text-muted whitespace-nowrap shrink-0 mt-0.5">
-        {date}
-      </span>
-    </motion.div>
+    </div>
   );
 
   if (link) {

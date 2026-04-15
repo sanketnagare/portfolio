@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "name": "Sanket Nagare",
+    "firstName": "Sanket",
+    "title": "GenAI & Backend Engineer",
+    "phone": "+91 8308868118",
+    "email": "sanket.nagare.work@gmail.com",
+    "about": "I build backend systems and AI tools for a living. Mostly working with Python, Node.js, and whatever LLM framework is actually useful this week. Currently at Kanaka Software, where I shipped an internal AI platform that analysts actually use. Outside of work, I write technical articles and build side projects.",
+    "contactMessage": "I'm always keen to hear about interesting projects, especially in the AI/ML space. Feel free to reach out if you'd like to collaborate or just talk about tech!",
+    "resumeUrl": "/resume.pdf",
+    "footer": "Sanket Nagare, Pune, India"
+  },
+
+  "socials": [
+    { "label": "GitHub", "href": "https://github.com/sanketnagare", "type": "github" },
+    { "label": "LinkedIn", "href": "https://linkedin.com/in/sanket-nagare", "type": "linkedin" },
+    { "label": "Email", "href": "mailto:sanket.nagare.work@gmail.com", "type": "email" }
+  ],
+
+  "skills": [
+    { "category": "Languages & Frameworks", "items": [
+      { "name": "Python" },
+      { "name": "Node.js" },
+      { "name": "FastAPI" },
+      { "name": "C++" },
+      { "name": "React.js" }
+    ]},
+    { "category": "GenAI & ML", "items": [
+      { "name": "Google ADK" },
+      { "name": "LangChain" },
+      { "name": "LangGraph" },
+      { "name": "LLM Integration" },
+      { "name": "Prompt Engineering" },
+      { "name": "Multi-Agent Systems" },
+      { "name": "RAG" },
+      { "name": "Vector Databases" },
+      { "name": "NLP" }
+    ]},
+    { "category": "Cloud & DevOps", "items": [
+      { "name": "AWS Lambda" },
+      { "name": "AWS Amplify" },
+      { "name": "Amazon Cognito" },
+      { "name": "EventBridge" },
+      { "name": "CloudWatch" },
+      { "name": "Docker" },
+      { "name": "Git" }
+    ]},
+    { "category": "Databases", "items": [
+      { "name": "PostgreSQL" },
+      { "name": "MSSQL Server" },
+      { "name": "Redis" }
+    ]},
+    { "category": "Other", "items": [
+      { "name": "Twilio" },
+      { "name": "REST APIs" },
+      { "name": "Event-Driven Architecture" },
+      { "name": "System Design" },
+      { "name": "DSA" },
+      { "name": "Agile/Scrum" }
+    ]}
+  ],
+
+  "experiences": [
+    {
+      "title": "Associate Software Engineer",
+      "company": "Kanaka Software",
+      "location": "Pune, India",
+      "date": "Sep 2023 - Present",
+      "logoType": "company",
+      "summary": "Building AI-powered HR analytics and on-demand marketplace backends.",
+      "projects": [
+        {
+          "name": "AI-Powered HR Insights Platform",
+          "bullets": [
+            "Built a multi-agent generative AI platform with a dynamic agent registry. Agents are fetched and invoked based on the incoming query rather than hardcoded pipelines. Think of it as an AI research analyst that figures out what it needs on the fly.",
+            "Designed the agent registry system where each agent is registered with its capabilities, and the orchestrator dynamically picks the right agent combination based on the query context. Data sources are fully configurable per agent.",
+            "Cut per-company research time from 4-5 hours to under 30 minutes by automating data collection, analysis, and report generation. Roughly a 70% reduction in manual effort.",
+            "Wrote the prompt engineering layer and task orchestration logic so the system maintains context across dynamically sequenced agent calls without losing information between steps.",
+            "Automated talent benchmarking. What used to take 2 days of manual curation now takes under 3 hours with candidate scoring and ranking pipelines."
+          ]
+        },
+        {
+          "name": "On-Demand Sitter Marketplace (US Market)",
+          "bullets": [
+            "Backend engineer on an Uber-style platform connecting parents with available babysitters in real time. 1,000+ registered users, 4.7 app store rating.",
+            "Built on AWS (Amplify, Cognito, EventBridge, CloudWatch) with 99.9% uptime, handling secure auth, event orchestration, and live monitoring.",
+            "Designed APIs handling 500+ concurrent booking requests and brought average parent-sitter match time down by around 40%.",
+            "Integrated Twilio for real-time SMS notifications via an event-driven pipeline so parents and sitters stay in sync throughout the booking."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Technical Content Writer",
+      "company": "GeeksForGeeks",
+      "location": "Remote",
+      "date": "Sep 2021 - April 2023",
+      "logoType": "content",
+      "hasCertificate": true,
+      "description": "Wrote 110+ technical articles on data structures, algorithms, and programming topics. Total readership crossed 1M+ views."
+    },
+    {
+      "title": "Summer Intern",
+      "company": "Hindustan Aeronautics Limited",
+      "location": "Nashik, India",
+      "date": "June 2022 - July 2022",
+      "logoType": "internship",
+      "hasCertificate": true,
+      "description": "Worked on endpoint security and antivirus deployment using Kaspersky for government network systems."
+    }
+  ],
+
+  "education": [
+    {
+      "title": "B.E. in Computer Engineering",
+      "institution": "MET Institute of Engineering, Nashik",
+      "date": "2020 - 2023",
+      "cgpa": "9.33 / 10"
+    }
+  ],
+
+  "projects": [
+    {
+      "title": "RoadmapFree",
+      "subtitle": "AI Learning Roadmap Generator",
+      "description": "Takes YouTube videos and course docs, extracts the structure, and generates a learning roadmap. Built it because paid course roadmaps shouldn't be locked behind a paywall.",
+      "tags": ["LLM APIs", "Data Extraction", "AI Platform"],
+      "link": "https://roadmapfree.com",
+      "gradient": "bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700"
+    },
+    {
+      "title": "AIVisibilityBot",
+      "subtitle": "SEO/AEO/GEO Audit Tool",
+      "description": "Runs 51+ automated checks to see how AI engines like ChatGPT, Perplexity, and Gemini perceive and cite a website. Full-stack SaaS with streaming results.",
+      "tags": ["Full-Stack SaaS", "LLM Analysis", "SEO/AEO/GEO", "Automation"],
+      "link": "https://aivisibilitybot.com",
+      "gradient": "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500"
+    },
+    {
+      "title": "Rushabh Enterprises",
+      "subtitle": "Freelance Business Website",
+      "description": "Freelance gig building a website for a UV lights manufacturer. React frontend, handled everything from planning to deployment.",
+      "tags": ["ReactJS", "Web Development", "Freelance"],
+      "link": "https://therushabhenterprises.com",
+      "gradient": "bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600"
+    }
+  ],
+
+  "achievements": [
+    "Won (3rd edition) and placed 2nd (4th edition) at Kanaka Software's internal hackathons.",
+    "Ranked 7th out of 4,000+ articles in a GeeksForGeeks content writing competition."
+  ],
+
+  "certifications": [
+    { "name": "Mastering Generative AI and ChatGPT", "link": "#" },
+    { "name": "Advanced PostgreSQL", "link": "#" },
+    { "name": "MS SQL Server", "link": "#" }
+  ]
+}
