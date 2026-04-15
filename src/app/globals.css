@@ -1,16 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f5f5f7;
+  --fg: #1a1a1a;
+  --mt: #6b6b7b;
+  --sf: #ffffff;
+  --sfl: #f0f0f2;
+  --bd: #e0e0e5;
+}
+
+.dark {
+  --bg: #0a0a0f;
+  --fg: #e8e6e3;
+  --mt: #6b6b7b;
+  --sf: #12121a;
+  --sfl: #1a1a25;
+  --bd: #2a2a3a;
+}
+
 @theme inline {
-  --color-background: #0a0a0f;
-  --color-foreground: #e8e6e3;
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
   --color-accent: #d4a853;
   --color-accent-light: #e8c97a;
   --color-accent-dark: #b8922e;
-  --color-muted: #6b6b7b;
-  --color-surface: #12121a;
-  --color-surface-light: #1a1a25;
-  --color-border: #2a2a3a;
+  --color-muted: var(--mt);
+  --color-surface: var(--sf);
+  --color-surface-light: var(--sfl);
+  --color-border: var(--bd);
 
   --font-heading: 'Space Grotesk', sans-serif;
   --font-accent: 'Syne', sans-serif;
@@ -97,6 +117,7 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-body);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {

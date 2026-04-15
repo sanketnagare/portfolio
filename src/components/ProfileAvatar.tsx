@@ -5,11 +5,10 @@ import { motion } from "framer-motion";
 export default function ProfileAvatar() {
   return (
     <div className="relative">
-      {/* Glow ring */}
       <motion.div
         className="absolute -inset-2 rounded-full"
         style={{
-          background: "conic-gradient(from 0deg, #d4a853, #e8c97a, #b8922e, #d4a853)",
+          background: "conic-gradient(from 0deg, var(--color-accent-dark), var(--color-accent-light), var(--color-accent), var(--color-accent-dark))",
           opacity: 0.4,
           filter: "blur(8px)",
         }}
@@ -23,42 +22,36 @@ export default function ProfileAvatar() {
         }}
       />
 
-      {/* Avatar container */}
       <motion.div
         className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-accent/40 bg-surface"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
       >
-        {/* Abstract avatar illustration */}
         <svg viewBox="0 0 128 128" className="w-full h-full" fill="none">
-          {/* Background */}
-          <rect width="128" height="128" fill="#12121a" />
+          <rect width="128" height="128" className="fill-surface" />
           
-          {/* Abstract geometric portrait */}
-          <circle cx="64" cy="48" r="22" fill="#d4a853" opacity="0.9" />
+          <circle cx="64" cy="48" r="22" className="fill-accent" opacity="0.9" />
           <path
             d="M35 95 Q35 72, 64 72 Q93 72, 93 95 L93 128 L35 128Z"
-            fill="#d4a853"
+            className="fill-accent"
             opacity="0.7"
           />
           
-          {/* Decorative accents */}
-          <circle cx="58" cy="44" r="2.5" fill="#12121a" />
-          <circle cx="70" cy="44" r="2.5" fill="#12121a" />
+          <circle cx="58" cy="44" r="2.5" className="fill-surface" />
+          <circle cx="70" cy="44" r="2.5" className="fill-surface" />
           <path
             d="M58 54 Q64 58, 70 54"
-            stroke="#12121a"
+            className="stroke-surface"
             strokeWidth="1.5"
             strokeLinecap="round"
             fill="none"
           />
           
-          {/* Code brackets decoration */}
           <motion.text
             x="20"
             y="115"
-            fill="#e8c97a"
+            className="fill-accent-light"
             fontSize="14"
             fontFamily="monospace"
             opacity="0.4"
@@ -70,7 +63,7 @@ export default function ProfileAvatar() {
           <motion.text
             x="100"
             y="115"
-            fill="#e8c97a"
+            className="fill-accent-light"
             fontSize="14"
             fontFamily="monospace"
             opacity="0.4"

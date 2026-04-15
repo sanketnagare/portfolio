@@ -21,8 +21,8 @@ export default function SkillBadge({ name, icon, index }: SkillBadgeProps) {
       }}
       whileHover={{
         scale: 1.05,
-        backgroundColor: "rgba(212, 168, 83, 0.15)",
-        borderColor: "rgba(212, 168, 83, 0.5)",
+        backgroundColor: "var(--color-surface-light)",
+        borderColor: "var(--color-accent)",
       }}
       className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-surface text-sm text-foreground font-medium cursor-default transition-colors"
     >

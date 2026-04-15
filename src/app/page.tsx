@@ -165,7 +165,7 @@ export default function Home() {
         className="fixed top-0 left-0 right-0 z-[100] h-[2px] origin-left"
         style={{
           scaleX,
-          background: "linear-gradient(90deg, #d4a853, #e8c97a)",
+          background: "linear-gradient(90deg, var(--color-accent-dark), var(--color-accent-light))",
         }}
       />
 
@@ -311,7 +311,7 @@ export default function Home() {
         <SectionWrapper id="contact" className="mb-8">
           <motion.div
             className="rounded-2xl border border-border bg-surface p-8 sm:p-10 text-center"
-            whileHover={{ borderColor: "rgba(212, 168, 83, 0.3)" }}
+            whileHover={{ borderColor: "var(--accent)" }}
           >
             <h2 className="font-heading text-2xl font-bold mb-3">
               Let&apos;s work together

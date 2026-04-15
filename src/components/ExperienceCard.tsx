@@ -33,7 +33,7 @@ export default function ExperienceCard({
         ease: [0.25, 0.4, 0.25, 1],
       }}
       whileHover={{
-        backgroundColor: "rgba(26, 26, 37, 0.8)",
+        backgroundColor: "var(--color-surface-light)",
         x: 4,
       }}
       className="group flex items-start gap-4 p-4 -mx-4 rounded-xl transition-colors cursor-pointer"

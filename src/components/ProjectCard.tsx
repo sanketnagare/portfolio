@@ -86,7 +86,7 @@ export default function ProjectCard({
                   "0 0 0 1px rgba(212,168,83,0.4), 0 8px 32px -8px rgba(212,168,83,0.15)",
               }
             : {
-                boxShadow: "0 0 0 1px rgba(42,42,58,1), 0 0 0 0 transparent",
+                boxShadow: "0 0 0 1px var(--color-border), 0 0 0 0 transparent",
               }
         }
         transition={{ duration: 0.35 }}

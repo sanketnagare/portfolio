@@ -2,20 +2,28 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Resume", href: "/resume.pdf" },
+  { label: "Home", href: "/", isHash: false },
+  { label: "Experience", href: "#experience", isHash: true },
+  { label: "Projects", href: "#projects", isHash: true },
+  { label: "Blog", href: "/blog", isHash: false },
+  { label: "Resume", href: "/resume.pdf", isHash: false },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
+    if (!isHomePage) return;
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
@@ -31,7 +39,14 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
+
+  const getHref = (item: typeof navItems[0]) => {
+    if (item.isHash && !isHomePage) {
+      return `/${item.href}`;
+    }
+    return item.href;
+  };
 
   return (
     <motion.nav
@@ -40,30 +55,30 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || mobileMenuOpen
-          ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-black/10"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-foreground/5"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a
-          href="#hero"
+        <Link
+          href="/"
           onClick={() => setMobileMenuOpen(false)}
           className="font-heading font-bold text-lg text-foreground hover:text-accent transition-colors"
         >
           SN<span className="text-accent">.</span>
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item) => {
             const sectionId = item.href.replace("#", "");
-            const isActive = activeSection === sectionId;
-            const isExternal = !item.href.startsWith("#");
+            const isActive = item.isHash ? activeSection === sectionId : pathname === item.href;
+            const isExternal = !item.href.startsWith("#") && !item.href.startsWith("/");
 
             return (
               <a
                 key={item.label}
-                href={item.href}
+                href={getHref(item)}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
@@ -72,7 +87,7 @@ export default function Navbar() {
                     : "text-muted hover:text-foreground"
                 }`}
               >
-                {isActive && (
+                {isActive && isHomePage && (
                   <motion.span
                     layoutId="activeNav"
                     className="absolute inset-0 bg-surface-light rounded-full border border-border/50"
@@ -85,6 +100,9 @@ export default function Navbar() {
           })}
         </div>
         
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
         {/* Mobile Menu Toggle Button */}
         <button
           className="md:hidden p-2 -mr-2 text-foreground flex items-center justify-center focus:outline-none"
@@ -112,8 +130,8 @@ export default function Navbar() {
             <div className="flex flex-col gap-4">
               {navItems.map((item, i) => {
                 const sectionId = item.href.replace("#", "");
-                const isActive = activeSection === sectionId;
-                const isExternal = !item.href.startsWith("#");
+                const isActive = item.isHash ? activeSection === sectionId : pathname === item.href;
+                const isExternal = !item.href.startsWith("#") && !item.href.startsWith("/");
 
                 return (
                   <motion.a
@@ -121,7 +139,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1, duration: 0.3 }}
                     key={item.label}
-                    href={item.href}
+                    href={getHref(item)}
                     onClick={() => setMobileMenuOpen(false)}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
