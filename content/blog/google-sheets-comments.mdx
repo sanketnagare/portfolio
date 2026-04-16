@@ -1,0 +1,94 @@
+---
+title: "Using Google Sheets as a Blog Backend"
+date: "2026-04-16"
+description: "Comments and likes stored in a spreadsheet. No database, no server, no cost."
+tags: ["Next.js", "Google Sheets", "Tutorial"]
+---
+
+I wanted comments and likes on my blog. I looked at Disqus (trackers everywhere), Firebase (overkill), and self-hosted DBs (too much setup for barely any traffic).
+
+I actually asked ChatGPT for ideas and it suggested Supabase. Fair enough, it's a solid option. But setting up auth, tables, and row-level security policies felt like a lot when all I needed was a name, a comment, and a like counter. Then it threw out the idea of using a Google Sheet as the backend. That sounded so dumb I had to try it.
+
+Turns out, it works.
+
+## The Setup
+
+- A **Google Sheet** with two tabs: `Comments` (slug, name, text, date) and `Likes` (slug, count)
+- An **Apps Script** deployed as a web app, accepting POST requests
+- A **React component** that calls the script URL
+
+That's it. No server, no database, no monthly bill.
+
+## The Backend
+
+The entire API lives inside one `doPost` function. It reads the action from the request body and routes accordingly:
+
+```javascript
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents);
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  // Route based on action
+  if (data.action === "getData") {
+    // Read all comments + like count for this slug
+    return getData(ss, data.slug);
+  }
+
+  if (data.action === "addComment") {
+    // Append a row: [slug, name, comment, timestamp]
+    ss.getSheetByName("Comments")
+      .appendRow([data.slug, data.name, data.comment, new Date().toISOString()]);
+    return jsonResponse({ success: true });
+  }
+
+  if (data.action === "updateLike") {
+    // Find the slug's row and increment, or create a new row
+    const sheet = ss.getSheetByName("Likes");
+    const rows = sheet.getDataRange().getValues();
+    let found = false;
+    let newLikes = 1;
+
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][0] === data.slug) {
+        newLikes = (Number(rows[i][1]) || 0) + 1;
+        sheet.getRange(i + 1, 2).setValue(newLikes);
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) sheet.appendRow([data.slug, 1]);
+    return jsonResponse({ success: true, likes: newLikes });
+  }
+}
+```
+
+Reading data is just filtering the sheet by slug:
+
+```javascript
+function getData(ss, slug) {
+  // Grab all rows from Comments sheet, filter by slug
+  const commentsSheet = ss.getSheetByName("Comments");
+  const comments = commentsSheet.getDataRange().getValues()
+    .slice(1) // skip header
+    .filter(row => row[0] === slug)
+    .map(row => ({ name: row[1], comment: row[2], date: row[3] }));
+
+  // Find the like count for this slug
+  const likesSheet = ss.getSheetByName("Likes");
+  const likesRow = likesSheet.getDataRange().getValues()
+    .slice(1)
+    .find(row => row[0] === slug);
+  const likes = likesRow ? (Number(likesRow[1]) || 0) : 0;
+
+  return jsonResponse({ comments, likes });
+}
+```
+
+Deploy this as a web app with "Anyone" access. You now have a REST API backed by a spreadsheet.
+
+## The Catch
+
+I know this is a hack. It won't survive a traffic spike, and Google Sheets has API quotas and a 5-million-cell limit. I'll be migrating to a proper backend with a real database soon enough. But for a blog that gets a handful of visitors? This took me 30 minutes to set up, costs nothing, and I can see every comment in a spreadsheet instead of querying a database. Good enough for now.
+
+Go ahead, leave a comment or hit the heart below. It writes straight into a Google Sheet. No database, no server, just a spreadsheet somewhere doing its job.

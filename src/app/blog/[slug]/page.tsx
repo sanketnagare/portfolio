@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { getPostBySlug, getAllPostSlugs } from "@/lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
+import BlogInteractions from "@/components/BlogInteractions";
 
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
@@ -107,6 +108,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             options={mdxOptions} 
           />
         </div>
+
+        <BlogInteractions slug={slug} />
       </article>
     </>
   );
