@@ -47,14 +47,14 @@ const components = {
   Image: BlogImage,
 };
 
-const mdxOptions = {
-  mdxOptions: {
-    rehypePlugins: [rehypeHighlight],
-  },
-};
-
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
+  const mdxOptions = {
+    mdxOptions: {
+      rehypePlugins: [rehypeHighlight],
+    },
+  };
 
   let post;
   try {
