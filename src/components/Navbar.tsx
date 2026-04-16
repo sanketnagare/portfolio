@@ -10,7 +10,6 @@ const navItems = [
   { label: "Experience", href: "#experience", isHash: true },
   { label: "Projects", href: "#projects", isHash: true },
   { label: "Blog", href: "/blog", isHash: false },
-  { label: "Resume", href: "/resume.pdf", isHash: false },
 ];
 
 export default function Navbar() {
