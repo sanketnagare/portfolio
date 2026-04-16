@@ -16,9 +16,27 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   try {
     const { meta } = getPostBySlug(slug);
+    
+    const images = meta.coverImage ? [meta.coverImage] : undefined;
+
     return {
       title: `${meta.title} - Sanket Nagare`,
       description: meta.description,
+      keywords: meta.tags,
+      openGraph: {
+        title: meta.title,
+        description: meta.description,
+        type: 'article',
+        publishedTime: meta.date ? new Date(meta.date).toISOString() : undefined,
+        authors: ['Sanket Nagare'],
+        images,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: meta.title,
+        description: meta.description,
+        images,
+      },
     };
   } catch {
     return { title: "Post not found" };
