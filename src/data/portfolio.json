@@ -5,7 +5,7 @@
     "title": "GenAI & Backend Engineer",
     "phone": "+91 8308868118",
     "email": "sanket.nagare.work@gmail.com",
-    "about": "I build backend systems and AI tools for a living. Mostly working with Python, Node.js, and whatever LLM framework is actually useful this week. Currently at Kanaka Software, where I shipped an internal AI platform that analysts actually use. Outside of work, I write technical articles and build side projects.",
+    "about": "I build backend systems and AI tools for a living. Mostly working with Python, Node.js, and whatever LLM framework is actually useful this week. Currently at Kanaka Software, where I shipped an internal AI platform that analysts actually use. AWS Certified Solutions Architect. Outside of work, I write technical articles and build side projects.",
     "contactMessage": "I'm always keen to hear about interesting projects, especially in the AI/ML space. Feel free to reach out if you'd like to collaborate or just talk about tech!",
     "footer": "Sanket Nagare, Pune, India"
   },
@@ -255,6 +255,10 @@
     "Ranked 7th out of 4,000+ articles in a GeeksForGeeks content writing competition."
   ],
   "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect – Associate",
+      "link": "https://www.credly.com/badges/5d227161-4ea6-4a59-bee8-3bce5fd7e995/public_url"
+    },
     {
       "name": "Mastering Generative AI and ChatGPT",
       "link": "#"
