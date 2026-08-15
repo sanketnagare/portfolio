@@ -15,20 +15,21 @@ function clientIp(request: NextRequest): string {
 }
 
 export async function POST(request: NextRequest) {
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+  // A bcrypt hash is full of "$", which Next's dotenv-expand treats as variable
+  // interpolation -- so .env.local needs them escaped as \$, while hosts like
+  // Vercel store the value verbatim and must NOT be escaped. Accept both forms
+  // rather than making the deploy depend on remembering which is which.
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.replace(/\\\$/g, "$");
+
   if (!passwordHash || !process.env.AUTH_SECRET) {
     return NextResponse.json({ error: "Auth is not configured." }, { status: 500 });
   }
 
-  // Next runs .env values through dotenv-expand, which silently eats the "$"
-  // separators in a bcrypt hash and turns every login into "Incorrect
-  // password". Fail loudly instead. (In .env.local write \$; on Vercel, where
-  // there is no expansion, paste the hash raw.)
   if (!/^\$2[aby]\$\d{2}\$.{53}$/.test(passwordHash)) {
     return NextResponse.json(
       {
         error:
-          "ADMIN_PASSWORD_HASH is not a valid bcrypt hash. In .env.local, escape each $ as \\$.",
+          "ADMIN_PASSWORD_HASH is not a valid bcrypt hash. Expected a 60-character string starting with $2b$.",
       },
       { status: 500 }
     );
