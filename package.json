@@ -9,15 +9,23 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
     "@tailwindcss/typography": "^0.5.19",
+    "@tiptap/core": "^3.30.1",
+    "@tiptap/extension-image": "^3.30.1",
+    "@tiptap/extension-placeholder": "^3.30.1",
+    "@tiptap/extension-youtube": "^3.30.1",
+    "@tiptap/pm": "^3.30.1",
+    "@tiptap/react": "^3.30.1",
+    "@tiptap/starter-kit": "^3.30.1",
+    "bcryptjs": "^3.0.3",
     "framer-motion": "^12.34.3",
     "gray-matter": "^4.0.3",
+    "jose": "^6.2.8",
+    "marked": "^18.0.9",
     "next": "16.1.6",
-    "next-mdx-remote": "^6.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "rehype-highlight": "^7.0.2",
-    "rehype-pretty-code": "^0.14.3",
     "shiki": "^4.0.2"
   },
   "devDependencies": {

@@ -1,134 +1,112 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import { getPostBySlug, getAllPostSlugs } from "@/lib/posts";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypeHighlight from "rehype-highlight";
+import PostArticle from "@/components/blog/PostArticle";
 import BlogInteractions from "@/components/BlogInteractions";
+import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
+import { formatPostDate } from "@/lib/types";
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
+  const slugs = await getAllPostSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  try {
-    const { meta } = getPostBySlug(slug);
-    
-    const images = meta.coverImage ? [meta.coverImage] : undefined;
+  const post = await getPostBySlug(slug);
 
-    return {
-      title: `${meta.title} - Sanket Nagare`,
-      description: meta.description,
-      keywords: meta.tags,
-      openGraph: {
-        title: meta.title,
-        description: meta.description,
-        type: 'article',
-        publishedTime: meta.date ? new Date(meta.date).toISOString() : undefined,
-        authors: ['Sanket Nagare'],
-        images,
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: meta.title,
-        description: meta.description,
-        images,
-      },
-    };
-  } catch {
-    return { title: "Post not found" };
-  }
+  if (!post) return { title: "Post not found", robots: { index: false } };
+
+  // Fall back to the site-wide OG card so a share always has an image.
+  const images = post.coverImage ? [post.coverImage] : [`/blog/${slug}/opengraph-image`];
+
+  return {
+    // The root layout's template appends "| Sanket Nagare", so don't repeat it.
+    title: post.title,
+    description: post.description,
+    keywords: post.tags,
+    authors: [{ name: "Sanket Nagare", url: "https://sanketnagare.com" }],
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      url: `/blog/${slug}`,
+      publishedTime: post.publishedAt ?? undefined,
+      modifiedTime: post.updatedAt,
+      authors: ["Sanket Nagare"],
+      tags: post.tags,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images,
+    },
+  };
 }
 
-function BlogImage({ src, alt }: { src: string; alt: string }) {
-  if (src.startsWith("http")) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={src} alt={alt} className="rounded-lg max-w-full" />
-    );
-  }
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      width={800}
-      height={450}
-      className="rounded-lg"
-    />
-  );
-}
-
-const components = {
-  img: BlogImage,
-  Image: BlogImage,
-};
-
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPost({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
-  const mdxOptions = {
-    mdxOptions: {
-      rehypePlugins: [rehypeHighlight],
+  if (!post) notFound();
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://sanketnagare.com";
+  const url = `${baseUrl}/blog/${slug}`;
+
+  // BlogPosting markup is what makes a post eligible for Google's article rich
+  // results (author, publish date, image in the SERP).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    image: post.coverImage ? [post.coverImage] : [`${baseUrl}/blog/${slug}/opengraph-image`],
+    datePublished: post.publishedAt ?? undefined,
+    dateModified: post.updatedAt,
+    keywords: post.tags?.join(", "),
+    inLanguage: "en",
+    author: {
+      "@type": "Person",
+      name: "Sanket Nagare",
+      url: baseUrl,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Sanket Nagare",
+      url: baseUrl,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
     },
   };
 
-  let post;
-  try {
-    post = getPostBySlug(slug);
-  } catch {
-    notFound();
-  }
-
-  const { meta, content } = post;
-
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
-      <article className="max-w-3xl mx-auto px-6 pb-24 relative z-10">
-        <header className="pt-28 pb-8">
-          <Link
-            href="/blog"
-            className="text-xs text-foreground/40 hover:text-accent transition-colors mb-6 inline-block"
-          >
-            Back to blog
-          </Link>
-          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-3">
-            {meta.title}
-          </h1>
-          <div className="flex items-center gap-3 text-xs text-foreground/40">
-            <span>{meta.date}</span>
-            {meta.tags && meta.tags.length > 0 && (
-              <>
-                <span className="text-border">|</span>
-                <div className="flex gap-2">
-                  {meta.tags.map((tag: string) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </header>
-
-        {meta.coverImage && (
-          <div className="mb-8">
-            <BlogImage src={meta.coverImage} alt={meta.title} />
-          </div>
-        )}
-
-        <div className="blog-prose">
-          <MDXRemote 
-            source={content} 
-            components={components} 
-            options={mdxOptions} 
-          />
-        </div>
-
+      <PostArticle
+        title={post.title}
+        date={formatPostDate(post.publishedAt)}
+        tags={post.tags}
+        coverImage={post.coverImage}
+        doc={post.content}
+      >
         <BlogInteractions slug={slug} />
-      </article>
+      </PostArticle>
     </>
   );
 }

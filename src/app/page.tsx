@@ -7,6 +7,10 @@ import ProjectCard from "@/components/ProjectCard";
 import SectionWrapper from "@/components/SectionWrapper";
 import data from "@/data/portfolio.json";
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   return (
     <>

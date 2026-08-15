@@ -1,9 +1,35 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import { getAllPosts } from "@/lib/posts";
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+const title = "Blog";
+const description =
+  "Notes on AI, backend engineering, and things I learn along the way. Written by Sanket Nagare.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    url: "/blog",
+    title: `${title} | Sanket Nagare`,
+    description,
+    // Defining openGraph replaces the root layout's block wholesale, so the
+    // image has to be repeated here or the card ships without one.
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${title} | Sanket Nagare`,
+    description,
+    images: ["/opengraph-image"],
+  },
+};
+
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <>

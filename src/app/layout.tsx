@@ -45,9 +45,10 @@ export const metadata: Metadata = {
     creator: "@sanketnagare",
     images: ["/opengraph-image"],
   },
-  alternates: {
-    canonical: baseUrl.href,
-  },
+  // NOTE: no `alternates.canonical` here on purpose. Canonical metadata is
+  // inherited by every route, so setting it in the root layout would make each
+  // blog post declare the homepage as its canonical and get dropped from the
+  // index as a duplicate. Each page sets its own.
 };
 
 const jsonLdPerson = {
@@ -57,7 +58,7 @@ const jsonLdPerson = {
   url: baseUrl.href,
   jobTitle: "Software Engineer",
   description: "Backend and AI engineer based in Pune. Currently building multi-agent systems and backend platforms at Kanaka Software.",
-  image: `${baseUrl.href}photo.jpeg`,
+  image: `${baseUrl.href}photo.png`,
   email: "sanket.nagare.work@gmail.com",
   address: {
     "@type": "PostalAddress",
@@ -99,7 +100,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.png" />
-        <link rel="canonical" href={baseUrl.href} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}

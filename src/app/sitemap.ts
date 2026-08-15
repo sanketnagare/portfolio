@@ -14,14 +14,15 @@ function getSafeDate(dateStr: string | undefined): string {
   return new Date().toISOString();
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://sanketnagare.com';
+
+  const posts = await getAllPosts();
   
-  const posts = getAllPosts();
-  
+  // Prefer the last edit time over the publish date so re-crawls pick up edits.
   const blogUrls = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: getSafeDate(post.date),
+    lastModified: getSafeDate(post.updatedAt ?? post.date),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));

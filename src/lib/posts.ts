@@ -1,64 +1,79 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import "server-only";
+import { unstable_cache } from "next/cache";
+import { getSupabase } from "@/lib/supabase";
+import {
+  formatPostDate,
+  toPostRecord,
+  type PostMeta,
+  type PostRecord,
+} from "@/lib/types";
 
-const postsDirectory = path.join(process.cwd(), "content/blog");
+export type { PostMeta } from "@/lib/types";
 
-export interface PostMeta {
-  slug: string;
-  title: string;
-  date: string;
-  description: string;
-  coverImage?: string;
-  tags?: string[];
+/**
+ * Every published-post read goes through this cache tag. The admin API calls
+ * revalidateTag(POSTS_TAG) on write, so the public pages stay statically
+ * cached but pick up edits within a request of publishing.
+ */
+export const POSTS_TAG = "posts";
+
+const LIST_COLUMNS =
+  "slug, title, description, cover_image, tags, published_at, updated_at";
+
+async function fetchPublishedPosts(): Promise<PostMeta[]> {
+  try {
+    const { data, error } = await getSupabase()
+      .from("posts")
+      .select(LIST_COLUMNS)
+      .eq("status", "published")
+      .order("published_at", { ascending: false });
+
+    if (error) throw error;
+
+    return (data ?? []).map((row) => ({
+      slug: row.slug,
+      title: row.title,
+      date: formatPostDate(row.published_at),
+      description: row.description ?? "",
+      coverImage: row.cover_image ?? null,
+      tags: row.tags ?? [],
+      updatedAt: row.updated_at,
+    }));
+  } catch (err) {
+    // A blog outage should not take the whole portfolio down.
+    console.error("[posts] failed to load published posts:", err);
+    return [];
+  }
 }
 
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(postsDirectory)) return [];
+async function fetchPublishedPost(slug: string): Promise<PostRecord | null> {
+  try {
+    const { data, error } = await getSupabase()
+      .from("posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle();
 
-  const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".mdx"));
-
-  const posts = files.map((filename) => {
-    const slug = filename.replace(".mdx", "");
-    const fullPath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data } = matter(fileContents);
-
-    return {
-      slug,
-      title: data.title || slug,
-      date: data.date || "",
-      description: data.description || "",
-      coverImage: data.coverImage || null,
-      tags: data.tags || [],
-    };
-  });
-
-  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
+    if (error) throw error;
+    return data ? toPostRecord(data) : null;
+  } catch (err) {
+    console.error(`[posts] failed to load post "${slug}":`, err);
+    return null;
+  }
 }
 
-export function getPostBySlug(slug: string) {
-  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
+export const getAllPosts = unstable_cache(fetchPublishedPosts, ["published-posts"], {
+  tags: [POSTS_TAG],
+});
 
-  return {
-    meta: {
-      slug,
-      title: data.title || slug,
-      date: data.date || "",
-      description: data.description || "",
-      coverImage: data.coverImage || null,
-      tags: data.tags || [],
-    },
-    content,
-  };
-}
+export const getPostBySlug = unstable_cache(
+  fetchPublishedPost,
+  ["published-post"],
+  { tags: [POSTS_TAG] }
+);
 
-export function getAllPostSlugs() {
-  if (!fs.existsSync(postsDirectory)) return [];
-  return fs
-    .readdirSync(postsDirectory)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(".mdx", ""));
+export async function getAllPostSlugs(): Promise<string[]> {
+  const posts = await getAllPosts();
+  return posts.map((p) => p.slug);
 }
